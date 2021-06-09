@@ -1,0 +1,2 @@
+az group create --name azuredevprj3_rg --location japeneast--subscription "Azure subscription 1"
+az network vnet create  --name azuredevprj3_vnet --resource-group azuredevprj3_rg  --location japeneast --address-prefixes 10.0.0.0/16 --subnet-name MyAseSubnet --subnet-prefixes 10.0.0.0/24
