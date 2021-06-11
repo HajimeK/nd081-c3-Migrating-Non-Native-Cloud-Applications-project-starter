@@ -1,3 +1,12 @@
+az group create --name azuredevprj3_rg --location japaneast--subscription "Azure subscription 1"
+#az sql server create --name azuredevprj3sqlserver --resource-group azuredevprj3_rg --location japaneast --enable-public-network true --admin-user hkadmin --admin-password <your password>
+#az sql db create --name azuredevprj3_sqldb --server azuredevprj3sqlserver  --resource-group azuredevprj3_rg --backup-storage-redundancy Local --edition Basic  --max-size 2GB --zone-redundant false
+
+az postgres server create --name azuredevprj3db  --resource-group azuredevprj3_rg --location japaneast --admin-user hkadmin --sku-name B_Gen5_1 --ssl-enforcement Enabled --minimal-tls-version TLS1_0 --public-network-access Enabled --backup-retention 7 --geo-redundant-backup Disabled --storage-size 5120 --version 11
+createdb -h azuredevprj3db.postgres.database.azure.com -p 5432 -U hkadmin@azuredevprj3db techconfdb
+pg_restore -h azuredevprj3db.postgres.database.azure.com -p 5432 --no-tablespaces -W -O -F t -x -d techconfdb -U hkadmin@azuredevprj3db ./techconfdb_backup.tar
+az network vnet create  --name azuredevprj3_vnet --resource-group azuredevprj3_rg  --location japeneast --address-prefixes 10.0.0.0/16 --subnet-name MyAseSubnet --subnet-prefixes 10.0.0.0/24
+
 az servicebus namespace create --resource-group azuredevprj3_rg --name azuredevprj3sbns --location japaneast --sku Basic
 az servicebus queue create --resource-group azuredevprj3_rg --namespace-name azuredevprj3sbns --name notificationqueue
 
@@ -6,4 +15,4 @@ az servicebus namespace authorization-rule keys list --resource-group azuredevpr
 az appservice plan create --resource-group azuredevprj3_rg --name azuredevprj3splan --location japaneast --sku F1 --is-linux
 az webapp create --resource-group azuredevprj3_rg  --plan azuredevprj3splan --name azuredevprj3webapp --runtime "python|3.8"
 az storage account create --name azuredevprj3storage --resource-group azuredevprj3_rg --location japaneast --sku Standard_LRS
-az functionapp create --functions-version 3 --resource-group azuredevprj3_rg --name azuredevprj3func --storage-account azuredevprj3storage --os-type Linux --consumption-plan-location centralus --runtime python --runtime-version 3.8
+az functionapp create --functions-version 3 --resource-group azuredevprj3_rg --name azuredevprj3func --storage-account azuredevprj3storage --os-type Linux --consumption-plan-location japaneast --runtime python --runtime-version 3.8
