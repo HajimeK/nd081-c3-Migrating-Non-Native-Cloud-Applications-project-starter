@@ -1,0 +1,9 @@
+az servicebus namespace create --resource-group azuredevprj3_rg --name azuredevprj3sbns --location japaneast --sku Basic
+az servicebus queue create --resource-group azuredevprj3_rg --namespace-name azuredevprj3sbns --name notificationqueue
+
+az servicebus namespace authorization-rule keys list --resource-group azuredevprj3_rg --namespace-name azuredevprj3sbns --name RootManageSharedAccessKey --query primaryConnectionString --output tsv
+
+az appservice plan create --resource-group azuredevprj3_rg --name azuredevprj3splan --location japaneast --sku F1 --is-linux
+az webapp create --resource-group azuredevprj3_rg  --plan azuredevprj3splan --name azuredevprj3webapp --runtime "python|3.8"
+az storage account create --name azuredevprj3storage --resource-group azuredevprj3_rg --location japaneast --sku Standard_LRS
+az functionapp create --functions-version 3 --resource-group azuredevprj3_rg --name azuredevprj3func --storage-account azuredevprj3storage --os-type Linux --consumption-plan-location centralus --runtime python --runtime-version 3.8

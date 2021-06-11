@@ -1,0 +1,3 @@
+azure
+psycopg2==2.8.5
+sendgrid==6.3.0
